@@ -1,0 +1,19 @@
+- name: ensure apache is at the latest version
+  yum:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - httpd
+    - php
+    - php-gd
+    - php-mysql
+    - git
+- name: Copy code
+  synchronize:
+    src: roles/webserver/files/
+    dest: /var/www/html
+- name: ensure apache is running
+  service:
+    name: httpd
+    state: started
+    enabled: yes
